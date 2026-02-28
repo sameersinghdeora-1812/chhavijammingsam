@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chhavii 🎵</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-glow: rgba(255, 255, 255, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --card-border: rgba(255, 255, 255, 0.3);
+            --text-main: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #ffecd2);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        /* --- Background Animations --- */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .focus-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .focus-overlay.active {
+            opacity: 1;
+        }
+
+        /* --- Main Layout & Glassmorphism Card --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards 0.3s;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.5), rgba(255,255,255,0.1));
+            z-index: -1;
+            border-radius: 26px;
+            opacity: 0.5;
+        }
+
+        .card.pulse {
+            animation: heartbeat 2s infinite ease-in-out;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fadeUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(255, 255, 255, 0.4); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Typography --- */
+        .name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #5D1049; /* Deep Plum */
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #3A103E; /* Dark elegant plum */
+        }
+
+        .quote {
+            font-size: 0.95rem;
+            font-weight: 400; 
+            color: #4B2A4F; /* Muted dark purple for contrast */
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* --- Custom Audio Player --- */
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .play-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .play-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .play-btn svg {
+            fill: #5D1049; /* Matching icon color to the name */
+            width: 26px;
+            height: 26px;
+            margin-left: 4px; 
+            transition: all 0.2s;
+        }
+        
+        .play-btn.playing svg {
+            margin-left: 0; 
+        }
+
+        /* Visual Sound Waves */
+        .sound-wave {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 40px;
+            width: 100%;
+        }
+
+        .bar {
+            width: 4px;
+            height: 5px;
+            background: #5D1049; /* Matching wave color */
+            border-radius: 2px;
+            transition: height 0.2s ease;
+            opacity: 0.5;
+        }
+
+        .sound-wave.active .bar {
+            opacity: 1;
+            animation: waveAnim 1s ease-in-out infinite alternate;
+        }
+
+        .sound-wave.active .bar:nth-child(1) { animation-delay: 0.0s; }
+        .sound-wave.active .bar:nth-child(2) { animation-delay: 0.2s; }
+        .sound-wave.active .bar:nth-child(3) { animation-delay: 0.4s; }
+        .sound-wave.active .bar:nth-child(4) { animation-delay: 0.1s; }
+        .sound-wave.active .bar:nth-child(5) { animation-delay: 0.5s; }
+        .sound-wave.active .bar:nth-child(6) { animation-delay: 0.3s; }
+        .sound-wave.active .bar:nth-child(7) { animation-delay: 0.6s; }
+
+        @keyframes waveAnim {
+            0% { height: 5px; }
+            100% { height: 40px; }
+        }
+
+        /* --- Hidden Surprise Message --- */
+        .surprise-msg {
+            margin-top: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #8B1C62; /* Deep vibrant ruby/pink */
+            font-weight: 500;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 1s ease;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 0;
+        }
+
+        .surprise-msg.reveal {
+            opacity: 1;
+            max-height: 100px;
+            padding-top: 20px;
+            animation: gentleGlow 2s infinite alternate;
+        }
+
+        @keyframes gentleGlow {
+            from { text-shadow: 0 0 5px rgba(255,255,255,0.4); }
+            to { text-shadow: 0 0 15px rgba(255,255,255,1); }
+        }
+
+        /* --- Particles & Music Notes --- */
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+            animation: floatUp linear forwards;
+            z-index: 2;
+        }
+        
+        .music-note {
+            position: absolute;
+            bottom: -30px;
+            color: rgba(93, 16, 73, 0.4); /* Dark notes */
+            font-size: 1.2rem;
+            pointer-events: none;
+            animation: floatUp linear forwards;
+            z-index: 2;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Cute Dancing Girl Animation --- */
+        .dancing-girl-container {
+            position: fixed;
+            bottom: -350px; /* Hidden deeper initially */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Center perfectly */
+            width: 260px; /* Increased size */
+            z-index: 5; /* Places her BEHIND the main glass card for a cool depth effect */
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+        }
+
+        /* Active state triggered by JS */
+        .dancing-girl-container.show {
+            bottom: 10px; /* Pops up behind the card */
+            opacity: 0.9;
+        }
+
+        .dancing-girl-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .name { font-size: 3.5rem; }
+            .title { font-size: 1.2rem; }
+            .card { padding: 40px 20px; }
+            .dancing-girl-container { width: 180px; } /* Slightly smaller on mobile to fit */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="focus-overlay" id="focus-overlay"></div>
+
+    <div class="dancing-girl-container" id="dancing-girl">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGlyNDY2cWhoZW1icXJlajZjM2duYnpiMHFhcXgwemtqcTd3a2dnaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lsJCkIKV6AT28/giphy.gif" alt="Cute dancing girl">
+    </div>
+
+    <div class="container">
+        <div class="card" id="main-card">
+            
+            <h1 class="name">Chhavii</h1>
+            <h2 class="title">Your Voice Feels Like Magic</h2>
+            <p class="quote">"Some people sing songs.<br>You make them feel alive."</p>
+
+            <div class="player-container">
+                <div class="sound-wave" id="sound-wave">
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar" style="height: 10px;"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+
+                <button class="play-btn" id="play-btn" aria-label="Play Audio">
+                    <svg id="icon-play" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                    <svg id="icon-replay" viewBox="0 0 24 24" style="display: none;">
+                        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="surprise-msg" id="surprise-msg">
+                Listening to you is my favorite escape. <br> Never stop singing. ✨
+            </div>
+
+        </div>
+    </div>
+
+    <audio id="audio-track" src="YOUR_AUDIO_FILE_HERE.mp3"></audio>
+
+    <script>
+        // --- DOM Elements ---
+        const audio = document.getElementById('audio-track');
+        const playBtn = document.getElementById('play-btn');
+        const card = document.getElementById('main-card');
+        const overlay = document.getElementById('focus-overlay');
+        const soundWave = document.getElementById('sound-wave');
+        const surpriseMsg = document.getElementById('surprise-msg');
+        const dancingGirl = document.getElementById('dancing-girl'); 
+        
+        // Icons
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        const iconReplay = document.getElementById('icon-replay');
+
+        let isPlaying = false;
+        let hasEnded = false;
+
+        // --- Audio Control Logic ---
+        playBtn.addEventListener('click', () => {
+            if (hasEnded) {
+                // Handle Replay
+                audio.currentTime = 0;
+                hasEnded = false;
+                surpriseMsg.classList.remove('reveal');
+            }
+
+            if (!isPlaying) {
+                // Play Action
+                audio.play();
+                isPlaying = true;
+                
+                // Update UI
+                iconPlay.style.display = 'none';
+                iconReplay.style.display = 'none';
+                iconPause.style.display = 'block';
+                playBtn.classList.add('playing');
+                
+                // Trigger Animations
+                card.classList.add('pulse');
+                overlay.classList.add('active');
+                soundWave.classList.add('active');
+                dancingGirl.classList.add('show'); 
+                
+            } else {
+                // Pause Action
+                audio.pause();
+                isPlaying = false;
+                
+                // Update UI
+                iconPause.style.display = 'none';
+                iconPlay.style.display = 'block';
+                playBtn.classList.remove('playing');
+                
+                // Pause Animations
+                card.classList.remove('pulse');
+                overlay.classList.remove('active');
+                soundWave.classList.remove('active');
+                dancingGirl.classList.remove('show'); 
+            }
+        });
+
+        // --- Audio Ended Logic ---
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            hasEnded = true;
+            
+            // Update UI to Replay
+            iconPause.style.display = 'none';
+            iconReplay.style.display = 'block';
+            playBtn.classList.remove('playing');
+            
+            // Stop Animations
+            card.classList.remove('pulse');
+            overlay.classList.remove('active');
+            soundWave.classList.remove('active');
+            dancingGirl.classList.remove('show'); 
+            
+            // Reveal Surprise Message
+            surpriseMsg.classList.add('reveal');
+        });
+
+        // --- Background Particle & Music Note Generator ---
+        function createParticle() {
+            const isNote = Math.random() > 0.7; 
+            const element = document.createElement(isNote ? 'span' : 'div');
+            
+            if (isNote) {
+                element.classList.add('music-note');
+                const notes = ['♪', '♫', '♩', '♬'];
+                element.innerText = notes[Math.floor(Math.random() * notes.length)];
+            } else {
+                element.classList.add('particle');
+                const size = Math.random() * 6 + 2; 
+                element.style.width = `${size}px`;
+                element.style.height = `${size}px`;
+            }
+
+            element.style.left = `${Math.random() * 100}vw`;
+            const duration = Math.random() * 8 + 7; 
+            element.style.animationDuration = `${duration}s`;
+            
+            document.body.appendChild(element);
+
+            setTimeout(() => {
+                element.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createParticle, 400);
+    </script>
+</body>
+</html>
